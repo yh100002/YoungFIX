@@ -10,10 +10,7 @@ using System.Windows.Forms;
 using System.Collections.Concurrent;
 using OfficeOpenXml;
 using System.IO;
-
 using YoungServices;
-
-
 
 namespace YoungFix
 {
@@ -75,8 +72,11 @@ namespace YoungFix
         private void InitFIXConnection()
         {
             feedFIX = new QuoteFIXReceiver(FIXIniVendorPath);
+
             executionFIX = new OrderFIXExecutor(FIXIniBrokerPath, OrderStatusUpdate);
+
             updateConnectionStatus = new Thread(UpdateConnectionStatus);
+
             updateConnectionStatus.Start();
         }
 
@@ -85,13 +85,17 @@ namespace YoungFix
             if (feedFIX != null)
             {
                 feedFIX.Dispose();
+
                 feedFIX = null;
+
                 GC.Collect();
             }
             if (executionFIX != null)
             {
                 executionFIX.Dispose();
+
                 executionFIX = null;
+
                 GC.Collect();
             }
         }
@@ -101,44 +105,42 @@ namespace YoungFix
             while (true)
             {
                 Thread.Sleep(1000);
+
                 if (this.IsHandleCreated)
                 {
                     if (feedFIX != null && feedFIX.IsConnected())
                     {
                         labelConnectionFeedStatusValue.Text = "CONNECTION";
+
                         labelConnectionFeedStatusValue.ForeColor = Color.Green;
+
                         labelConnectionFeedStatusValue.BackColor = Color.Green;
                     }
                     else
                     {
                         labelConnectionFeedStatusValue.Text = "CONNECTION";
+
                         labelConnectionFeedStatusValue.ForeColor = Color.Red;
+
                         labelConnectionFeedStatusValue.BackColor = Color.Red;
                     }
 
                     if (executionFIX != null && executionFIX.IsConnected())
                     {
                         labelConnectionBrokerStatusValue.Text = "CONNECTION";
+
                         labelConnectionBrokerStatusValue.ForeColor = Color.Green;
+
                         labelConnectionBrokerStatusValue.BackColor = Color.Green;
                     }
                     else
                     {
                         labelConnectionBrokerStatusValue.Text = "CONNECTION";
+
                         labelConnectionBrokerStatusValue.ForeColor = Color.Red;
+
                         labelConnectionBrokerStatusValue.BackColor = Color.Red;
-                    }
-                    /*
-                    labelConnectionFeedStatusValue.Invoke(new Action(() =>
-                    {
-                        
-                    }
-                    ));
-                    labelConnectionBrokerStatus.Invoke(new Action(() =>
-                    {
-                        
-                    }
-                    ));*/
+                    }                  
                 }
             }
         }
@@ -147,10 +149,7 @@ namespace YoungFix
         {
             KillFIXConnection();
 
-            InitFIXConnection();
-            // Demo - can be removed
-            //Thread.Sleep(1000);
-            //SetActiveSymbol(new SymbolBase(@"TEST-RANDOM.TEST"));
+            InitFIXConnection();          
         }
 
         private void btnDisconnect_Click(object sender, EventArgs e)
@@ -177,7 +176,8 @@ namespace YoungFix
                 executionFIX.GetSymbolsList(requestIDSymbols, UpdateSymbolsList);
             }
             catch(Exception)
-            { }
+            {
+            }
             
         }
                 
@@ -346,7 +346,7 @@ namespace YoungFix
             }
             catch (Exception)
             {
-                // not connected?
+                
             }
         }
 
@@ -409,9 +409,6 @@ namespace YoungFix
 
                         updateCurrentSymbol(symbol);                        
                     }
-
-                    //string temp = string.Format("{0},{1},{2}", symbol.EXANTEId, key, symbol.Trades[key]);
-                    //Console.WriteLine("Trade List ====> {0}", temp);
                 }  
             }          
         }
@@ -541,7 +538,9 @@ namespace YoungFix
             else
             {
                 button2.Enabled = true;
+
                 button1.Enabled = true;
+
                 button3.Enabled = true;
             }
         }
@@ -554,6 +553,7 @@ namespace YoungFix
                     File.Copy(templatePath, newFile);
 
                 FileInfo newFileInfo = new FileInfo(newFile);
+
                 using (ExcelPackage package = new ExcelPackage(newFileInfo))
                 {
                     ExcelWorksheet sheet = package.Workbook.Worksheets[1];
@@ -767,8 +767,7 @@ namespace YoungFix
         {
             if (IsHandleCreated)
             {
-                listViewMarketDepth.Invoke(new Action(() => listViewMarketDepth.Items.Clear()));
-                //labelLastTradeValue.Invoke(new Action(() => labelLastTradeValue.Text = ""));
+                listViewMarketDepth.Invoke(new Action(() => listViewMarketDepth.Items.Clear()));                
             }
         }
 
@@ -831,15 +830,21 @@ namespace YoungFix
             listViewOrders.Invoke(new Action(() =>
             {
                 SuspendConrolRedraw(listViewOrders);
+
                 listViewOrders.Items.Clear();
+
                 foreach (OrderBase order in executionFIX.GetActiveOrdersCopy())
                 {
                     string orderType = "Limit";
+
                     string side = "";
+
                     string price = "";
+
                     if (order.GetType() == typeof(OrderLimit))
                     {
                         orderType = "Limit";
+
                         price = ((OrderLimit)order).Price.ToString();
                     }
 
@@ -847,9 +852,12 @@ namespace YoungFix
 
 
                     ListViewItem row = new ListViewItem(new string[] { order.Symbol.EXANTEId, side, orderType, order.Quantity.ToString(), price, order.OrderStatus.ToString() });
+
                     listViewOrders.Items.Add(row);
                 }
+
                 listViewOrders.Sort();
+
                 ResumeControlRedraw(listViewOrders);
             }
             ));
@@ -858,17 +866,24 @@ namespace YoungFix
         private void InitOrdersControl()
         {            
             listViewOrders.Columns.Add(@"Instrument", 100);
+
             listViewOrders.Columns.Add("Side");
+
             listViewOrders.Columns.Add("Type");
+
             listViewOrders.Columns.Add("Qty");
+
             listViewOrders.Columns.Add("Price");
+
             listViewOrders.Columns.Add("Status", 100);
+
             listViewOrders.Sorting = SortOrder.Descending;
         }
 
         private void InitPriceControl()
         {
             listViewMarketDepth.Columns.Add(@"Type", 60);
+
             listViewMarketDepth.Columns.Add("Price",100);            
         }
 
