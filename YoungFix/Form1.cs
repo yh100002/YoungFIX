@@ -67,6 +67,10 @@ namespace YoungFix
             InitPriceControl();
 
             InitOrdersControl();
+
+            btnConnection.Enabled = true;
+
+            btnDisconnect.Enabled = false;
         }
 
         private void InitFIXConnection()
@@ -115,6 +119,22 @@ namespace YoungFix
                         labelConnectionFeedStatusValue.ForeColor = Color.Green;
 
                         labelConnectionFeedStatusValue.BackColor = Color.Green;
+                        
+                        try
+                        {
+                            btnConnection.Invoke(new Action(() =>
+                            {
+                                btnConnection.Enabled = false;
+                            }
+                            ));
+
+                            btnDisconnect.Invoke(new Action(() =>
+                            {
+                                btnDisconnect.Enabled = true;
+                            }
+                            ));
+                        }
+                        catch (Exception) { }
                     }
                     else
                     {
@@ -123,6 +143,22 @@ namespace YoungFix
                         labelConnectionFeedStatusValue.ForeColor = Color.Red;
 
                         labelConnectionFeedStatusValue.BackColor = Color.Red;
+
+                        try
+                        {
+                            btnConnection.Invoke(new Action(() =>
+                            {
+                                btnConnection.Enabled = true;
+                            }
+                            ));
+
+                            btnDisconnect.Invoke(new Action(() =>
+                            {
+                                btnDisconnect.Enabled = false;
+                            }
+                            ));
+                        }
+                        catch (Exception) { }                       
                     }
 
                     if (executionFIX != null && executionFIX.IsConnected())
@@ -132,6 +168,22 @@ namespace YoungFix
                         labelConnectionBrokerStatusValue.ForeColor = Color.Green;
 
                         labelConnectionBrokerStatusValue.BackColor = Color.Green;
+
+                        try
+                        {
+                            btnConnection.Invoke(new Action(() =>
+                            {
+                                btnConnection.Enabled = false;
+                            }
+                            ));
+
+                            btnDisconnect.Invoke(new Action(() =>
+                            {
+                                btnDisconnect.Enabled = true;
+                            }
+                            ));
+                        }
+                        catch (Exception) { }                        
                     }
                     else
                     {
@@ -140,6 +192,22 @@ namespace YoungFix
                         labelConnectionBrokerStatusValue.ForeColor = Color.Red;
 
                         labelConnectionBrokerStatusValue.BackColor = Color.Red;
+
+                        try
+                        {
+                            btnConnection.Invoke(new Action(() =>
+                            {
+                                btnConnection.Enabled = true;
+                            }
+                            ));
+
+                            btnDisconnect.Invoke(new Action(() =>
+                            {
+                                btnDisconnect.Enabled = false;
+                            }
+                            ));
+                        }
+                        catch (Exception) { }                        
                     }                  
                 }
             }
@@ -240,8 +308,7 @@ namespace YoungFix
                 }
 
                 ResumeControlRedraw(cmbExp);
-            }
-            
+            }            
             ));
 
             cmbExp.SelectedIndex = 0;
@@ -392,7 +459,6 @@ namespace YoungFix
                 }
                 
             }
-
 
             if (trades.Keys.Count > 0)
             {
