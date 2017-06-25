@@ -56,19 +56,7 @@ namespace YoungServices
     public enum Duration { Day, GTC };
 
 
-    // Interface is required here to make transparent backtest execution
-    public interface IOrderExecutor: IDisposable
-    {
-        void placeOrder(OrderBase order, OrderStatusCallback orderStatusCallback);
-        void cancelOrder(String orderId);
-        void UpdateQuote(Quote quote);
-        Boolean IsConnected();
-    }
+    
 
-    public interface IQouteReceiver : IDisposable
-    {
-        //void SubscribeForQuotes(String requestId, SymbolBase symbol, UpdateSymbolQuotesCallback updateQuotesCallback);
-        void SubscribeForQuotes(String requestId, SymbolBase symbol, int depth, UpdateSymbolQuotesCallback updateQuotesCallback);
-        Boolean IsConnected();
-    }
+   
 }

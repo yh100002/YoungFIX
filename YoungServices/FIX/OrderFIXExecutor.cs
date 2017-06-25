@@ -4,6 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Collections;
 using QuickFix;
+using YoungServices.FIX;
 
 namespace YoungServices
 {

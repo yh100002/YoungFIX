@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using QuickFix;
+using YoungServices.FIX;
 
 namespace YoungServices
 {
