@@ -46,26 +46,31 @@ namespace YoungServices
 
         public void toApp(QuickFix.Message message, QuickFix.SessionID sessionID)
         {
+            //Console.WriteLine($"QuickFixFeedApp toApp : {message}");
         }
 
         public void onCreate(QuickFix.SessionID sessionID)
         {
-            //Console.WriteLine("onCreate");
+            Console.WriteLine($"QuickFixFeedApp onCreate : {sessionID}");
         }
 
         public void onLogout(QuickFix.SessionID sessionID)
         {
-            //Console.WriteLine("onLogout");
+            Console.WriteLine($"QuickFixFeedApp onLogout : {sessionID}");
         }
 
         public void onLogon(QuickFix.SessionID sessionID)
         {
             this.sessionID = sessionID;
+
+            Console.WriteLine($"QuickFixFeedApp onLogon : {sessionID}");
         }
 
 
         public void toAdmin(QuickFix.Message message, QuickFix.SessionID sessionID)
         {
+            Console.WriteLine($"QuickFixFeedApp toAdmin : {message}");
+
             MsgType msgType = new MsgType();
             message.getHeader().getField(msgType);
             if (msgType.getValue() == MsgType.Logon)
@@ -76,7 +81,8 @@ namespace YoungServices
 
         public void fromApp(QuickFix.Message message, QuickFix.SessionID sessionID)
         {
-            //Console.WriteLine("fromApp");
+            Console.WriteLine($"QuickFixFeedApp fromApp : {message}");
+
             MsgType msgType = new MsgType();
             message.getHeader().getField(msgType);
             if (msgType.getValue() == MsgType.MarketDataSnapshotFullRefresh)
@@ -87,7 +93,8 @@ namespace YoungServices
 
         public void fromAdmin(QuickFix.Message message, QuickFix.SessionID sessionID)
         {
-            //Console.WriteLine("fromAdmin");
+            Console.WriteLine($"QuickFixFeedApp fromAdmin : {message}");
+
         }
 
         public void onMDSFR(QuickFix44.MarketDataSnapshotFullRefresh message, QuickFix.SessionID sid)
@@ -159,6 +166,8 @@ namespace YoungServices
             group2.set(new Symbol(symbol.EXANTEId));
             marketDataRequest.addGroup(group2);
             Session.sendToTarget(marketDataRequest, sessionID);
+
+            //Console.WriteLine($"QuickFixFeedApp subscribeForQuotes : {marketDataRequest}");
         }
     }
 }

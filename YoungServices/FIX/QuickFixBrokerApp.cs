@@ -120,25 +120,26 @@ namespace YoungServices
 
         public void onCreate(QuickFix.SessionID sessionID)
         {
-            Console.WriteLine("QuickFixBrokerApp onCreate");
+            Console.WriteLine($"QuickFixBrokerApp onCreate : {sessionID}");
         }
 
 
         public void onLogon(QuickFix.SessionID sessionID)
         {
-            Console.WriteLine("QuickFixBrokerApp onLogon");
+            Console.WriteLine($"QuickFixBrokerApp onLogon : {sessionID}");
         }
 
 
         public void onLogout(QuickFix.SessionID sessionID)
         {
-            Console.WriteLine("QuickFixBrokerApp onLogout");
+            Console.WriteLine($"QuickFixBrokerApp onLogout : {sessionID}");
         }
 
 
         public void toAdmin(QuickFix.Message message, QuickFix.SessionID sessionID)
         {
-            Console.WriteLine("QuickFixBrokerApp toAdmin");
+            Console.WriteLine($"QuickFixBrokerApp toAdmin : {message}");
+
             MsgType msgType = new MsgType();
             message.getHeader().getField(msgType);
             if (msgType.getValue() == MsgType.Logon)
@@ -154,17 +155,20 @@ namespace YoungServices
 
         public void fromAdmin(QuickFix.Message message, QuickFix.SessionID sessionID)
         {
-            Console.WriteLine("QuickFixBrokerApp fromAdmin");
+            Console.WriteLine($"QuickFixBrokerApp fromAdmin : {message}");
         }
 
 
         public void toApp(QuickFix.Message message, QuickFix.SessionID sessionID)
         {
+            Console.WriteLine($"QuickFixBrokerApp toApp : {message}");
         }
 
 
         public void fromApp(QuickFix.Message message, QuickFix.SessionID sessionID)
         {
+            //Console.WriteLine($"QuickFixBrokerApp fromApp : {message}");            
+
             try
             {
                 MsgType msgType = new MsgType();
@@ -348,8 +352,7 @@ namespace YoungServices
 
         public void onMessage(QuickFix.Message message, QuickFix.SessionID sessionID)
         {
-            Console.WriteLine("QuickFixBrokerApp onMessage");
-            Console.WriteLine(message);
+            Console.WriteLine($"QuickFixBrokerApp onMessage : {message}");            
         }
 
         public void GetSymbolsList(String requestIDSymbols, UpdateSymbolsListCallback symbolsCallback)

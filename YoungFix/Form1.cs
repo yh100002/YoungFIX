@@ -259,7 +259,7 @@ namespace YoungFix
 
             foreach (var elem in symbols)
             {
-                allSymbols.Add(elem);   
+                allSymbols.Add(elem); 
             }
 
             UpdateProgressBar();           
